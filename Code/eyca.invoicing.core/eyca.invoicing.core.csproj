@@ -44,6 +44,8 @@
     <Compile Include="ExcelExtractor.cs" />
     <Compile Include="ExcelManager.cs" />
     <Compile Include="InvoiceCreator.cs" />
+    <Compile Include="InvoiceExplorer.cs" />
+    <Compile Include="ProgressEventHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

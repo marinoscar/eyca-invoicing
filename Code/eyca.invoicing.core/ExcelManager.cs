@@ -13,7 +13,7 @@ namespace eyca.invoicing.core
         public static void DoWork(string fileName, int sheetNum, Action<Application, Workbook, _Worksheet, Range> execute)
         {
             var app = new Application();
-            var workbook = app.Workbooks.Open(fileName);
+            var workbook = app.Workbooks.Open(fileName, ReadOnly: true, UpdateLinks:false, Editable:false);
             _Worksheet sheet = workbook.Sheets[sheetNum];
             var range = sheet.UsedRange;
             try
