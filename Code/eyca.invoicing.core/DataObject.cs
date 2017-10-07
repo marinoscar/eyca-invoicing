@@ -15,14 +15,22 @@ namespace eyca.invoicing.core
         public DateTime WeekEndingDate { get; set; }
         public DateTime TransactionDate { get; set; }
         public string EmployeeName { get; set; }
+        public string GPN { get; set; }
         public string Rank { get; set; }
         public double HoursCharged { get; set; }
+        public double BillRate { get; set; }
+        public double SER { get; set; }
+        public double NER { get; set; }
+        public double ERP { get; set; }
+        public double CostRate { get; set; }
+        public string RecievedFlag { get; set; }
         public string ActivityCode { get; set; }
         public string ActivityName { get; set; }
         public DateTime ProcessedDate { get; set; }
         public string CategoryCode { get; set; }
         public double ExpenseAmount { get; set; }
         public string Description { get; set; }
+        public string SubCategoryDescription { get; set; }
         public double HoursDollarAmount { get; set; }
 
         public override string ToString()
