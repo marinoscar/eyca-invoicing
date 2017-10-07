@@ -28,7 +28,7 @@ namespace eyca.invoicing.core
             {
                 Marshal.ReleaseComObject(range);
                 Marshal.ReleaseComObject(sheet);
-                workbook.Close();
+                workbook.Close(SaveChanges: false);
                 Marshal.ReleaseComObject(workbook);
                 app.Quit();
                 Marshal.ReleaseComObject(app);
