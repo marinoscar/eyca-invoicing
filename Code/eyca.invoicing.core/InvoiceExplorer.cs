@@ -32,8 +32,13 @@ namespace eyca.invoicing.core
             Data = new List<Dictionary<string, object>>();
             foreach (var file in files)
             {
-                OnProgressUpdate(i, total, string.Format("File: {0}", file.Name));
-                Data.Add(GetDataFromInvoice(file));
+                var item = GetDataFromInvoice(file);
+                var message = string.Format("File: {0}", file.Name);
+                if (item.Any())
+                    Data.Add(item);
+                else
+                    message = "EMPTY => " + message;
+                OnProgressUpdate(i, total, message);
                 i++;
             }
         }
@@ -81,11 +86,11 @@ namespace eyca.invoicing.core
             return res;
         }
 
-        private void GetDataFromInvoice(_Worksheet sheet, Dictionary<string, object> d, FileInfo f)
+        private bool GetDataFromInvoice(_Worksheet sheet, Dictionary<string, object> d, FileInfo f)
         {
             var val1 = Convert.ToString(sheet.Cells[7, "D"].Value2);
-            if (val1 == null || val1 != "EYCA-HOLDING")
-                return;
+            if (val1 == null)
+                return false;
             d["FileName"] = f.Name;
             d["FileCreatedOn"] = f.CreationTime;
             d["FileModifiedOn"] = f.LastWriteTime;
@@ -95,6 +100,7 @@ namespace eyca.invoicing.core
             d["TotalForHours"] = sheet.Cells[30, "J"].Value2;
             d["TotalForExpenses"] = sheet.Cells[30, "L"].Value2;
             d["Description"] = sheet.Cells[40, "D"].Value2;
+            return true;
         }
 
     }
