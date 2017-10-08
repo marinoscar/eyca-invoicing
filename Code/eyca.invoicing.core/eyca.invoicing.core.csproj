@@ -41,10 +41,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataObject.cs" />
+    <Compile Include="Entities\Employee.cs" />
     <Compile Include="ExcelExtractor.cs" />
     <Compile Include="ExcelManager.cs" />
     <Compile Include="InvoiceCreator.cs" />
     <Compile Include="InvoiceExplorer.cs" />
+    <Compile Include="Loaders\EmployeeLoader.cs" />
+    <Compile Include="Loaders\Loader.cs" />
     <Compile Include="ProgressEventHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
