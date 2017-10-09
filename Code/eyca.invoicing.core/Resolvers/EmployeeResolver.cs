@@ -1,19 +1,17 @@
 ﻿using eyca.invoicing.core.Entities;
-using Luval.Orm;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace eyca.invoicing.core.Loaders
+namespace eyca.invoicing.core.Resolvers
 {
-    public class EmployeeLoader : Loader<Employee>, ILoader
+    public class EmployeeResolver : Resolver<Employee>
     {
-
-        public void DoLoad()
+        public Employee ByCode(string code)
         {
-            OnDoLoad(Items);
+            return Resolve(i => i.Code == code);
         }
     }
 }

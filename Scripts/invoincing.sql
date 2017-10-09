@@ -46,7 +46,7 @@ create table Employee(
 )
 
 create table Project(
-	Id int not null,
+	Id int not null identity(1,1),
 	Code varchar(50) not null,
 	EmployeeId int null, 
 	EngagementPartnerName varchar(100) null,
@@ -57,7 +57,7 @@ create table Project(
 	EngagementManagerEmail varchar(100) null,
 	PaceNumber bigint null,
 	LocalProjectId bigint null,
-	LocalActivityCode varchar(10) null,
+	LocalActivityCodeName varchar(10) null,
 	StartDate datetime null,
 	EndDate datetime null,
 	constraint PK_Project primary key (Id),
@@ -88,9 +88,9 @@ create table ProjectData(
 	ProjectId int not null,
 	EmployeeId int null,
 	ClientName varchar(255),
-	ClientId varchar(255),
+	ClientId bigint,
 	EngagementName varchar(255),
-	EngagementId varchar(255),
+	EngagementId bigint,
 	WeekEndDate datetime,
 	TransactionDate datetime,
 	ProcessedDate datetime,
@@ -108,13 +108,14 @@ create table ProjectData(
 	RecievedFlag varchar(255),
 	CategoryCode varchar(255),
 	ExpenseAmount float,
+	IsExpense bit,
 	CategoryDescription varchar(255),
 	[Description] varchar(2500),
 	SubCategoryDescription varchar(255),
 	constraint PK_ProjectData primary key (Id),
 	constraint FK_ProjectData_Project foreign key (ProjectId) references Project (Id),
-	constraint FK_ProjectData_Employee foreign key (EmployeeId) references Project (Id),
-	constraint UQ_ProjectData unique (EmployeeCode, TransactionDate, ClientName, EngagementName)
+	constraint FK_ProjectData_Employee foreign key (EmployeeId) references Employee (Id),
+	--constraint UQ_ProjectData unique (IsExpense, EmployeeCode, TransactionDate, ClientName, EngagementName)
 )
 go
 

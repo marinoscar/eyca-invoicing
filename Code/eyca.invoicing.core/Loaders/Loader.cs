@@ -8,25 +8,24 @@ using System.Threading.Tasks;
 
 namespace eyca.invoicing.core.Loaders
 {
-    public class Loader
+    public class Loader<TEntity>
     {
+        public Loader()
+        {
+            Items = new List<TEntity>();
+        }
 
-        protected virtual void OnDoLoad(IEnumerable<object> items)
+        public List<TEntity> Items { get; set; }
+
+        protected virtual void OnDoLoad(IEnumerable<TEntity> items)
         {
             OnDoLoad(items, new SqlServerLanguageProvider());
         }
 
-        protected virtual void OnDoLoad(IEnumerable<object> items, ISqlLanguageProvider sqlProvider)
-        {
-            var connStr = ConfigurationManager.ConnectionStrings["eyca"];
-            if (connStr == null) throw new InvalidOperationException("Connection string 'eyca' not set to connect to the database");
-            OnDoLoad(items, sqlProvider, connStr.ConnectionString);
-        }
-
-        protected virtual void OnDoLoad(IEnumerable<object> items, ISqlLanguageProvider sqlProvider, string connectionString)
+        protected virtual void OnDoLoad(IEnumerable<TEntity> items, ISqlLanguageProvider sqlProvider)
         {
             var sql = sqlProvider.Upsert(items);
-            var db = new Database(connectionString);
+            var db = Helper.GetDb();
             db.ExecuteNonQuery(sql);
         }
     }

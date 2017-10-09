@@ -14,10 +14,21 @@ namespace eyca.invoicing.terminal
     {
         static void Main(string[] args)
         {
-            var extractor = new EmployeeExtractor(@"C:\Git\eyca-invoicing\Docs\Employee.xlsx");
-            var res = extractor.Extract();
-            var loader = new EmployeeLoader() { Items = res.ToList() };
-            loader.DoLoad();
+            var file = @"C:\Git\eyca-invoicing\Docs\Data.xlsx";
+            var empExtractor = new EmployeeExtractor(file);
+            var projectExtractor = new ProjectExtractor(file);
+            var dataExtractor = new DataExtractor(file);
+            var emps = empExtractor.Extract();
+            var projects = projectExtractor.Extract();
+            var empLoader = new EmployeeLoader() { Items = emps.ToList() };
+            var projectLoader = new ProjectLoader() { Items = projects.ToList() };
+            empLoader.DoLoad();
+            projectLoader.DoLoad();
+
+            var data = dataExtractor.Extract();
+            var dataLoader = new DataLoader() { Items = data.ToList() };
+
+            dataLoader.DoLoad();
 
 
             //var arguments = new ConsoleSwitches(args);

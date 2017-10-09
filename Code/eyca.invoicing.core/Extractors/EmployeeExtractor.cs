@@ -8,39 +8,14 @@ using System.Threading.Tasks;
 
 namespace eyca.invoicing.core.Extractors
 {
-    public class EmployeeExtractor : IExtractor<Employee>
+    public class EmployeeExtractor : ExcelBasedExtractor<Employee>
     {
 
-        private string _fileName;
-        private List<Employee> _employees;
-
-        public EmployeeExtractor(string excelFileName)
+        public EmployeeExtractor(string excelFileName):base(excelFileName)
         {
-            _fileName = excelFileName;
-
         }
 
-        public IEnumerable<Employee> Extract()
-        {
-            var excelExtractor = new ExcelExtractor(_fileName, GetMap());
-            var items = excelExtractor.Extract().ToList();
-            return TransformItems(items);
-        }
-
-        private List<Employee> TransformItems(List<Dictionary<string, string>> items)
-        {
-            return items.Select(i => new Employee()
-            {
-                Code = i["Code"],
-                Email = i["Email"],
-                Name = i["Name"],
-                Rank = i["Rank"],
-                RankCode = i["RankCode"]
-            })
-                .ToList();
-        }
-
-        private ExcelMapping GetMap()
+        protected override ExcelMapping GetMap()
         {
             return new ExcelMapping()
             {

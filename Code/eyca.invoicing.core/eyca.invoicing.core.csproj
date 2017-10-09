@@ -44,19 +44,33 @@
   <ItemGroup>
     <Compile Include="DataObject.cs" />
     <Compile Include="Entities\Employee.cs" />
+    <Compile Include="Entities\Project.cs" />
+    <Compile Include="Entities\ProjectData.cs" />
+    <Compile Include="Entities\ProjectDetail.cs" />
     <Compile Include="ExcelExtractor.cs" />
     <Compile Include="ExcelManager.cs" />
+    <Compile Include="Extractors\DataExtractor.cs" />
     <Compile Include="Extractors\EmployeeExtractor.cs" />
     <Compile Include="Extractors\ExcelAttributeMap.cs" />
+    <Compile Include="Extractors\ExcelBasedExtractor.cs" />
     <Compile Include="Extractors\ExcelExtractor.cs" />
     <Compile Include="Extractors\ExcelMapping.cs" />
     <Compile Include="Extractors\IExtractor.cs" />
+    <Compile Include="Extractors\ProjectExtractor.cs" />
+    <Compile Include="Helper.cs" />
     <Compile Include="InvoiceCreator.cs" />
     <Compile Include="InvoiceExplorer.cs" />
+    <Compile Include="Loaders\DataLoader.cs" />
     <Compile Include="Loaders\EmployeeLoader.cs" />
+    <Compile Include="Loaders\ILoader.cs" />
     <Compile Include="Loaders\Loader.cs" />
+    <Compile Include="Loaders\LoadManager.cs" />
+    <Compile Include="Loaders\ProjectLoader.cs" />
     <Compile Include="ProgressEventHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Resolvers\EmployeeResolver.cs" />
+    <Compile Include="Resolvers\ProjectResolver.cs" />
+    <Compile Include="Resolvers\Resolver.cs" />
   </ItemGroup>
   <ItemGroup>
     <COMReference Include="Microsoft.Office.Core">
