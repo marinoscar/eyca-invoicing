@@ -11,6 +11,7 @@ namespace eyca.invoicing.core.Extractors
         public ExcelMapping()
         {
             RowOffset = 1;
+            SheetIndex = 1;
             ColumnMap = new List<ExcelAttributeMap>();
         }
 

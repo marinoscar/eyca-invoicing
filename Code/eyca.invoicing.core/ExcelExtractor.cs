@@ -10,13 +10,13 @@ using System.Threading.Tasks;
 
 namespace eyca.invoicing.core
 {
-    public class ExcelExtractor
+    public class ExcelExtractor_old
     {
 
         private string _dataFile;
 
 
-        public ExcelExtractor(string dataFile)
+        public ExcelExtractor_old(string dataFile)
         {
             _dataFile = dataFile;
             if (!File.Exists(_dataFile)) throw new ArgumentException("The file does not exists");

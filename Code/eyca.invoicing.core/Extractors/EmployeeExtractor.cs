@@ -12,24 +12,48 @@ namespace eyca.invoicing.core.Extractors
     {
 
         private string _fileName;
-        private List<Employee> _items;
+        private List<Employee> _employees;
 
         public EmployeeExtractor(string excelFileName)
         {
             _fileName = excelFileName;
-            
+
         }
 
         public IEnumerable<Employee> Extract()
         {
-            _items = new List<Employee>();
-            ExcelManager.DoWork(_fileName, 1, DoRange);
-            return null;
+            var excelExtractor = new ExcelExtractor(_fileName, GetMap());
+            var items = excelExtractor.Extract().ToList();
+            return TransformItems(items);
         }
- 
-        private void DoRange(Range r)
-        {
 
+        private List<Employee> TransformItems(List<Dictionary<string, string>> items)
+        {
+            return items.Select(i => new Employee()
+            {
+                Code = i["Code"],
+                Email = i["Email"],
+                Name = i["Name"],
+                Rank = i["Rank"],
+                RankCode = i["RankCode"]
+            })
+                .ToList();
+        }
+
+        private ExcelMapping GetMap()
+        {
+            return new ExcelMapping()
+            {
+                RowOffset = 2,
+                SheetName = "Employee",
+                ColumnMap = new List<ExcelAttributeMap>() {
+                    new ExcelAttributeMap() { Name =  "Code", ColumnIndex = 1 },
+                    new ExcelAttributeMap() { Name =  "Name", ColumnIndex = 2 },
+                    new ExcelAttributeMap() { Name =  "Email", ColumnIndex = 3 },
+                    new ExcelAttributeMap() { Name =  "Rank", ColumnIndex = 4 },
+                    new ExcelAttributeMap() { Name =  "RankCode", ColumnIndex = 5 },
+                }
+            };
         }
     }
 }

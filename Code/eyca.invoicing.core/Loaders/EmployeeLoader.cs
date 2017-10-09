@@ -8,16 +8,13 @@ using System.Threading.Tasks;
 
 namespace eyca.invoicing.core.Loaders
 {
-    public class EmployeeLoader
+    public class EmployeeLoader : Loader
     {
         public List<Employee> Items { get; set; }
 
         public void DoLoad()
         {
-            var sqlProvider = new SqlServerLanguageProvider();
-            var sql = sqlProvider.Upsert(Items);
-            var db = new Database();
-            db.ExecuteNonQuery(sql);
+            OnDoLoad(Items);
         }
     }
 }

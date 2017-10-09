@@ -56,7 +56,7 @@ create table Project(
 	EngagementManager varchar(100) null,
 	EngagementManagerEmail varchar(100) null,
 	PaceNumber bigint null,
-	LocalProjectId int null,
+	LocalProjectId bigint null,
 	LocalActivityCode varchar(10) null,
 	StartDate datetime null,
 	EndDate datetime null,

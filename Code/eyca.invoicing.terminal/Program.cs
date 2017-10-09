@@ -1,4 +1,6 @@
 ﻿using eyca.invoicing.core;
+using eyca.invoicing.core.Extractors;
+using eyca.invoicing.core.Loaders;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -12,9 +14,15 @@ namespace eyca.invoicing.terminal
     {
         static void Main(string[] args)
         {
-            var arguments = new ConsoleSwitches(args);
-            if (arguments.ContainsSwitch("/createInvoice")) CreateInvoices(arguments);
-            if (arguments.ContainsSwitch("/invoiceReport")) InvoiceReport(arguments);
+            var extractor = new EmployeeExtractor(@"C:\Git\eyca-invoicing\Docs\Employee.xlsx");
+            var res = extractor.Extract();
+            var loader = new EmployeeLoader() { Items = res.ToList() };
+            loader.DoLoad();
+
+
+            //var arguments = new ConsoleSwitches(args);
+            //if (arguments.ContainsSwitch("/createInvoice")) CreateInvoices(arguments);
+            //if (arguments.ContainsSwitch("/invoiceReport")) InvoiceReport(arguments);
         }
 
         private static void InvoiceReport(ConsoleSwitches args)
@@ -38,7 +46,7 @@ namespace eyca.invoicing.terminal
             var date = DateTime.Parse(args["-d"]);
             var file = args["-f"];
             var template = args["-t"];
-            var excelExtractor = new ExcelExtractor(file);
+            var excelExtractor = new ExcelExtractor_old(file);
             Console.WriteLine();
             Console.WriteLine("Creating Invoice with data from {0} for template {1} filtering by date {2}", file, template, date);
             var items = excelExtractor.GetData();
