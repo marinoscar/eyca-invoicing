@@ -44,6 +44,11 @@
     <Compile Include="Entities\Employee.cs" />
     <Compile Include="ExcelExtractor.cs" />
     <Compile Include="ExcelManager.cs" />
+    <Compile Include="Extractors\EmployeeExtractor.cs" />
+    <Compile Include="Extractors\ExcelAttributeMap.cs" />
+    <Compile Include="Extractors\ExcelExtractor.cs" />
+    <Compile Include="Extractors\ExcelMapping.cs" />
+    <Compile Include="Extractors\IExtractor.cs" />
     <Compile Include="InvoiceCreator.cs" />
     <Compile Include="InvoiceExplorer.cs" />
     <Compile Include="Loaders\EmployeeLoader.cs" />
@@ -79,6 +84,12 @@
       <Isolated>False</Isolated>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Luval\Code\Luval.Orm\Luval.Orm.csproj">
+      <Project>{a20163b7-c57b-4780-af21-8cb688fc4288}</Project>
+      <Name>Luval.Orm</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

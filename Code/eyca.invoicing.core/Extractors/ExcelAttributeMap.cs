@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace eyca.invoicing.core.Extractors
 {
-    class ExcelAttributeMap
+    public class ExcelAttributeMap
     {
+        public string Name { get; set; }
+        public int ColumnIndex { get; set; }
     }
 }
