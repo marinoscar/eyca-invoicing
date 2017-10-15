@@ -47,7 +47,7 @@ create table Employee(
 
 create table Project(
 	Id int not null identity(1,1),
-	Code varchar(50) not null,
+	Code varchar(250) not null,
 	EmployeeId int null, 
 	EngagementPartnerName varchar(100) null,
 	EngagementPartnerEmail varchar(100) null,
