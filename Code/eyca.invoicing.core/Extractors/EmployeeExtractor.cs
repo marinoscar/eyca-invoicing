@@ -20,7 +20,6 @@ namespace eyca.invoicing.core.Extractors
             return new ExcelMapping()
             {
                 RowOffset = 2,
-                SheetName = "Employee",
                 ColumnMap = new List<ExcelAttributeMap>() {
                     new ExcelAttributeMap() { Name =  "Code", ColumnIndex = 1 },
                     new ExcelAttributeMap() { Name =  "Name", ColumnIndex = 2 },

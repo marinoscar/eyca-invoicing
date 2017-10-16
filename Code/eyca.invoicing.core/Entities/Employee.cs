@@ -11,7 +11,7 @@ namespace eyca.invoicing.core.Entities
     public class Employee
     {
         [Key]
-        public int Id { get; set; }
+        public long Id { get; set; }
         [Unique]
         public string Code { get; set; }
         public string Name { get; set; }

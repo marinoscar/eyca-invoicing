@@ -9,5 +9,6 @@ namespace eyca.invoicing.core.Extractors
     public interface IExtractor<TEntity>
     {
         IEnumerable<TEntity> Extract();
+        event EventHandler<ProgressEventHandler> ProgressUpdate;
     }
 }

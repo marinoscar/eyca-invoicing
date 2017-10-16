@@ -35,7 +35,7 @@ end
 go
 
 create table Employee(
-	Id int not null identity(1,1),
+	Id bigint not null,
 	Code varchar(100) not null,
 	[Name] varchar(100) not null,
 	Email varchar(100) null,
@@ -46,9 +46,9 @@ create table Employee(
 )
 
 create table Project(
-	Id int not null identity(1,1),
+	Id bigint not null,
 	Code varchar(250) not null,
-	EmployeeId int null, 
+	EmployeeId bigint null, 
 	EngagementPartnerName varchar(100) null,
 	EngagementPartnerEmail varchar(100) null,
 	EngagementParnerOfficeAddress varchar(255) null,
@@ -70,9 +70,9 @@ create unique index UQ_Project_Id on Project (LocalProjectId) where LocalProject
 go
 
 create table ProjectDetail(
-	Id int not null identity(1,1),
-	EmployeeId int null,
-	ProjectId int not null,
+	Id bigint not null,
+	EmployeeId bigint null,
+	ProjectId bigint not null,
 	[Rank] varchar(100) not null,
 	[Role] varchar(100) not null,
 	Utilization float not null,
@@ -84,9 +84,9 @@ create table ProjectDetail(
 )
 
 create table ProjectData(
-	Id int not null identity(1,1),
-	ProjectId int not null,
-	EmployeeId int null,
+	Id bigint not null,
+	ProjectId bigint not null,
+	EmployeeId bigint null,
 	ClientName varchar(255),
 	ClientId bigint,
 	EngagementName varchar(255),
@@ -120,8 +120,8 @@ create table ProjectData(
 go
 
 create table ProjectInvoice(
-	Id int not null identity(1,1),
-	ProjectId int not null,
+	Id bigint not null,
+	ProjectId bigint not null,
 	InvoiceCode varchar(255) not null,
 	StartDate datetime not null,
 	EndDate datetime not null,
@@ -131,9 +131,9 @@ create table ProjectInvoice(
 go
 
 create table ProjectInvoiceDetail(
-	Id int not null identity(1,1),
-	ProjectInvoiceId int not null,
-	ProjectDataId int not null,
+	Id bigint not null,
+	ProjectInvoiceId bigint not null,
+	ProjectDataId bigint not null,
 	constraint FK_ProjectInvoiceDetail_Project foreign key (ProjectInvoiceId) references Project (Id),
 	constraint FK_ProjectInvoiceDetail_ProjectData foreign key (ProjectDataId) references ProjectData (Id)
 )

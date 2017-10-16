@@ -15,6 +15,20 @@ namespace eyca.invoicing.core.Extractors
             Map = map;
         }
 
+
+        public event EventHandler<ProgressEventHandler> ProgressUpdate;
+
+        protected virtual void OnProgressUpdate(double current, double total, string message)
+        {
+            OnProgressUpdate(new ProgressEventHandler(current, total, message));
+        }
+
+        protected virtual void OnProgressUpdate(ProgressEventHandler e)
+        {
+            if (ProgressUpdate != null)
+                ProgressUpdate(this, e);
+        }
+
         public ExcelMapping Map { get; private set; }
         public string FileName { get; private set; }
 
@@ -22,11 +36,14 @@ namespace eyca.invoicing.core.Extractors
         {
             var result = new List<Dictionary<string, string>>();
             ExcelManager.DoWork(FileName, Map.SheetIndex, (workbook, sheet, range) => {
-
-                var workingSheet = (_Worksheet)workbook.Sheets[Map.SheetName];
-                if (workingSheet == null) workingSheet = sheet;
+                var workingSheet = sheet;
+                if (!string.IsNullOrWhiteSpace(Map.SheetName))
+                    workingSheet = (_Worksheet)workbook.Sheets[Map.SheetName];
+                if (workingSheet == null)
+                    return;
                 var workingRange = workingSheet.UsedRange;
-
+                var totalIterations = workingRange.Rows.Count - Map.RowOffset;
+                var current = 0;
                 for (int row = Map.RowOffset; row <= workingRange.Rows.Count; row++)
                 {
                     var item = new Dictionary<string, string>();
@@ -35,6 +52,8 @@ namespace eyca.invoicing.core.Extractors
                         item[col.Name] = ExtractStringFromRow(workingRange, row, col.ColumnIndex);
                     }
                     result.Add(item);
+                    OnProgressUpdate(current, totalIterations, string.Format("Row {0} of {1}", current + 1, totalIterations));
+                    current++;
                 }
             });
             return result;

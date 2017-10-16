@@ -20,7 +20,6 @@ namespace eyca.invoicing.core.Extractors
             return new ExcelMapping()
             {
                 RowOffset = 2,
-                SheetName = "Data",
                 ColumnMap = new List<ExcelAttributeMap>()
                 {
                     new ExcelAttributeMap() { Name = "ClientName", ColumnIndex = 1 },
@@ -56,6 +55,8 @@ namespace eyca.invoicing.core.Extractors
             var result =  base.Transform(items);
             foreach (var item in result)
             {
+                if (string.IsNullOrWhiteSpace(item.ClientName))
+                    continue;
                 item.IsExpense = (item.CategoryCode != "Time");
                 item.ClientId = GetNumbers(item.ClientName);
                 item.EngagementId = GetNumbers(item.EngagementName);
@@ -66,7 +67,7 @@ namespace eyca.invoicing.core.Extractors
                 if (project != null)
                     item.ProjectId = project.Id;
             }
-            return result;
+            return result.Where(i => !string.IsNullOrWhiteSpace(i.ClientName)).ToList();
         }
 
         private long GetNumbers(string text)

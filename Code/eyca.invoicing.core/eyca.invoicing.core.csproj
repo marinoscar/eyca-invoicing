@@ -61,16 +61,14 @@
     <Compile Include="InvoiceCreator.cs" />
     <Compile Include="InvoiceExplorer.cs" />
     <Compile Include="Loaders\DataLoader.cs" />
-    <Compile Include="Loaders\EmployeeLoader.cs" />
     <Compile Include="Loaders\ILoader.cs" />
     <Compile Include="Loaders\Loader.cs" />
-    <Compile Include="Loaders\LoadManager.cs" />
-    <Compile Include="Loaders\ProjectLoader.cs" />
     <Compile Include="ProgressEventHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resolvers\EmployeeResolver.cs" />
     <Compile Include="Resolvers\ProjectResolver.cs" />
     <Compile Include="Resolvers\Resolver.cs" />
+    <Compile Include="EntityRowHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <COMReference Include="Microsoft.Office.Core">

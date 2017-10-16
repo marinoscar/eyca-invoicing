@@ -1,8 +1,10 @@
 ﻿using eyca.invoicing.core;
+using eyca.invoicing.core.Entities;
 using eyca.invoicing.core.Extractors;
 using eyca.invoicing.core.Loaders;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -14,26 +16,68 @@ namespace eyca.invoicing.terminal
     {
         static void Main(string[] args)
         {
-            var file = @"C:\Git\eyca-invoicing\Docs\Data.xlsx";
-            var empExtractor = new EmployeeExtractor(file);
-            var projectExtractor = new ProjectExtractor(file);
-            var dataExtractor = new DataExtractor(file);
-            var emps = empExtractor.Extract();
-            var projects = projectExtractor.Extract();
-            var empLoader = new EmployeeLoader() { Items = emps.ToList() };
-            var projectLoader = new ProjectLoader() { Items = projects.ToList() };
-            empLoader.DoLoad();
-            projectLoader.DoLoad();
+            var conArgs = new ConsoleSwitches(args);
+            var sw = Stopwatch.StartNew();
+            ImportProject(conArgs);
+            ImportEmployee(conArgs);
+            ImportProjectData(conArgs);
+            Console.WriteLine();
+            Console.WriteLine();
+            Console.WriteLine("Completed in {0}", sw.Elapsed);
+        }
 
-            var data = dataExtractor.Extract();
-            var dataLoader = new DataLoader() { Items = data.ToList() };
+        private static void ImportProject(ConsoleSwitches args)
+        {
+            if (string.IsNullOrWhiteSpace(args["/project"])) return;
+            EntityRowHelper.ZeroRowProject();
+            var projectFile = args["/project"];
+            var extractor = new ProjectExtractor(projectFile);
+            Console.WriteLine("");
+            Console.WriteLine("Importing Project Information");
+            Console.WriteLine("");
+            DoLoad(extractor);
+        }
 
-            dataLoader.DoLoad();
+        private static void ImportEmployee(ConsoleSwitches args)
+        {
+            if (string.IsNullOrWhiteSpace(args["/employee"])) return;
+            EntityRowHelper.ZeroRowEmployee();
+            var employeeFile = args["/employee"];
+            var extractor = new EmployeeExtractor(employeeFile);
+            Console.WriteLine("");
+            Console.WriteLine("");
+            Console.WriteLine("Importing Employee Roster");
+            Console.WriteLine("");
+            DoLoad(extractor);
+        }
 
+        private static void ImportProjectData(ConsoleSwitches args)
+        {
+            if (string.IsNullOrWhiteSpace(args["/dataFolder"])) return;
+            var dataFolder = new DirectoryInfo(args["/dataFolder"]);
+            var files = new List<FileInfo>();
+            files.AddRange(dataFolder.GetFiles("*.xls*", SearchOption.AllDirectories));
+            Console.WriteLine("");
+            Console.WriteLine("");
+            Console.WriteLine("Importing Project Data");
+            Console.WriteLine("");
+            var count = 1;
+            foreach(var file in files)
+            {
+                Console.WriteLine("");
+                Console.WriteLine("File {0} of {1}", count, files.Count);
+                Console.WriteLine("");
+                var extractor = new DataExtractor(file.FullName);
+                DoLoad(extractor);
+                count++;
+            }
+        }
 
-            //var arguments = new ConsoleSwitches(args);
-            //if (arguments.ContainsSwitch("/createInvoice")) CreateInvoices(arguments);
-            //if (arguments.ContainsSwitch("/invoiceReport")) InvoiceReport(arguments);
+        private static void DoLoad<T>(IExtractor<T> extractor)
+        {
+            var loader = new DataLoader<T>(extractor);
+            loader.ProgressUpdate += ProgressUpdate;
+            loader.DoLoad();
         }
 
         private static void InvoiceReport(ConsoleSwitches args)
@@ -49,23 +93,7 @@ namespace eyca.invoicing.terminal
 
         private static void ProgressUpdate(object sender, ProgressEventHandler e)
         {
-            Console.WriteLine("{0}      Progress: {1}", e.Message, e.Percentage.ToString("N2"));
-        }
-
-        private static void CreateInvoices(ConsoleSwitches args)
-        {
-            var date = DateTime.Parse(args["-d"]);
-            var file = args["-f"];
-            var template = args["-t"];
-            var excelExtractor = new ExcelExtractor_old(file);
-            Console.WriteLine();
-            Console.WriteLine("Creating Invoice with data from {0} for template {1} filtering by date {2}", file, template, date);
-            var items = excelExtractor.GetData();
-            var writer = new InvoiceCreator(template, items, "");
-            var newFile = writer.CreateInvoice(date);
-            Console.WriteLine();
-            Console.WriteLine("File {0} has been created", newFile);
-            Console.WriteLine();
+            Console.Write("\r{0}      Progress: {1}", e.Message, e.Percentage.ToString("N2"));
         }
     }
 }

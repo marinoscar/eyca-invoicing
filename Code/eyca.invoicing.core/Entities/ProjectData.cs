@@ -10,18 +10,18 @@ namespace eyca.invoicing.core.Entities
 {
     public class ProjectData
     {
-        [Key, AutoIncrement]
-        public int Id { get; set; }
-        public int EmployeeId { get; set; }
-        public int ProjectId { get; set; }
+        [Key]
+        public long Id { get; set; }
+        public long EmployeeId { get; set; }
+        public long ProjectId { get; set; }
         [Unique]
         public string ClientName { get; set; }
         public long ClientId { get; set; }
         [Unique]
         public string EngagementName { get; set; }
         public long EngagementId { get; set; }
-        public DateTime WeekEndDate { get; set; }
         [Unique]
+        public DateTime WeekEndDate { get; set; }
         public DateTime TransactionDate {get;set;}
         public DateTime ProcessedDate { get; set; }
         public string EmployeeName { get; set; }
